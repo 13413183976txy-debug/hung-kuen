@@ -129,11 +129,19 @@ export function showTitle(opts) {
   const recLine = `个人纪录 · 最快斩首 ${rec.bestBossTime ? fmt(rec.bestBossTime) : '—'} · 最多斩敌 ${rec.maxKills || '—'} · 最高修为 Lv.${rec.maxLevel || '—'} · 通关 ${rec.wins || 0} 次`;
   c.appendChild(el('div', 'title-records', recLine));
 
+  // 版本徽记：取自页面模块入口的 ?v=（标题页最底一行显示，真机核对部署/缓存版本用）
+  let modV = '';
+  try {
+    const src = (document.querySelector('script[type="module"]') || {}).src || '';
+    const m = src.match(/[?&]v=(\d+)/);
+    if (m) modV = m[1];
+  } catch (e) { /* 取不到就不显示 */ }
+
   // 玩家操作：屏幕最底一行小字（触摸设备显示触控按键说明）
-  s.appendChild(el('div', 'title-tips',
-    isCoarsePointer()
-      ? '摇杆移动 · 按住「拳」连击 · 「浪」惊涛叠浪 · 右上「‖」暂停'
-      : 'WASD 移动 · 按住 J 连击 · K 惊涛叠浪 · Esc 暂停 · M 静音'));
+  const tipsText = isCoarsePointer()
+    ? '摇杆移动 · 按住「拳」连击 · 「浪」惊涛叠浪 · 右上「‖」暂停'
+    : 'WASD 移动 · 按住 J 连击 · K 惊涛叠浪 · Esc 暂停 · M 静音';
+  s.appendChild(el('div', 'title-tips', tipsText + (modV ? ' · v' + modV : '')));
 
   s.appendChild(c);
   layer().appendChild(s);
