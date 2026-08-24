@@ -133,6 +133,15 @@ export function initTouch() {
 
   specialBtn = ui.querySelector('.t-special');
 
+  // 全屏界面（标题/选招/结算/暂停）打开时隐藏触控按钮：
+  // 半透明面板遮不住控件，透出会显得杂乱；界面关闭后自动恢复
+  const layerEl = document.getElementById('ui-layer');
+  if (layerEl) {
+    const syncScreens = () => ui.classList.toggle('screens-on', !!layerEl.querySelector('.screen'));
+    new MutationObserver(syncScreens).observe(layerEl, { childList: true, subtree: true });
+    syncScreens();
+  }
+
   // 旧 iOS 捏合缩放防御（新系统已由 touch-action:none 覆盖）
   document.addEventListener('gesturestart', (e) => e.preventDefault());
 

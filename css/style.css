@@ -109,8 +109,13 @@ body::before {
     radial-gradient(90% 70% at 50% 36%, rgba(46, 37, 25, 0.66) 0%, rgba(23, 19, 15, 0.90) 55%, rgba(10, 8, 6, 0.97) 100%);
   text-align: center;
   z-index: 20;
-  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
+
+/* 主内容用 margin:auto 居中：内容放得下时正中；放不下时自动贴顶并可滚动，
+   避免 flex justify-content:center 在小屏上把顶部内容裁掉 */
+.screen > .content { margin: auto; }
 
 /* 细金内框（卷轴边裱） */
 .screen::before {
@@ -761,6 +766,8 @@ body { -webkit-touch-callout: none; }
   pointer-events: none;
   touch-action: none;
 }
+/* 全屏界面（标题/选招/结算/暂停）打开时隐藏触控控件（由 touch.js 监测） */
+#touch-ui.screens-on { display: none !important; }
 
 /* 摇杆热区：左 55% 屏幕，落点即圆心 */
 .t-joy-zone {
@@ -953,19 +960,23 @@ body { -webkit-touch-callout: none; }
   color: rgba(233, 215, 170, 0.5);
 }
 
-/* ---------- 小屏（手机横屏约 390px 高）压缩布局，全屏界面不溢出 ---------- */
-@media (max-height: 480px) {
+/* ---------- 小屏（手机横屏约 450~560px 高）压缩布局，全屏界面不溢出 ---------- */
+@media (max-height: 560px) {
   .screen-title .content { gap: 8px; }
-  .title-cn { font-size: clamp(40px, 11vw, 72px); }
+  .title-cn { font-size: clamp(40px, 11vw, 64px); }
   .title-tagline { margin-top: 8px; gap: 5px; font-size: clamp(13px, 2.2vw, 16px); }
   .title-records { margin-top: 12px; margin-bottom: 8px; }
   .diff-chips { margin-top: 10px; }
   .btn { font-size: 20px; padding: 10px 34px; }
   .btn.small { font-size: 16px; padding: 8px 26px; }
-  .levelup-head { margin-bottom: 12px; }
-  .scroll-card { min-height: 224px; padding: 32px 13px 12px; }
-  .scroll-name { font-size: 24px; }
-  .levelup-tip { margin-top: 12px; }
+  .levelup-head { margin-bottom: 10px; }
+  .levelup-head .sub { font-size: 13px; }
+  .levelup-row { gap: 16px; }
+  .scroll-card { min-height: 210px; padding: 30px 12px 12px; }
+  .scroll-sigil { width: 50px; height: 50px; margin-top: 4px; }
+  .scroll-name { font-size: 23px; }
+  .scroll-desc { font-size: 11.5px; margin-top: 6px; line-height: 1.6; }
+  .levelup-tip { margin-top: 10px; }
   .result-stats { margin-top: 14px; gap: 8px; }
   .result-actions { margin-top: 18px; gap: 10px; }
   .result-title { font-size: clamp(38px, 8vw, 60px); }

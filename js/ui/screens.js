@@ -155,35 +155,41 @@ export function showUpgrade(choices, onPick) {
   s.appendChild(Object.assign(mist(), { className: 'mist b' }));
   addAirborne(s, 9, 7);
 
+  // 用 .content 包裹主内容：配合 .screen 的 margin:auto 居中策略，
+  // 小屏（手机横屏 ~450px 高）内容超高时不会截断顶部标题，而是可滚动
+  const c = el('div', 'content');
+  c.style.cssText = 'position:relative;z-index:4;display:flex;flex-direction:column;align-items:center;';
+
   const head = el('div', 'levelup-head');
   head.appendChild(el('div', 'title', '武学精进'));
   head.appendChild(el('div', 'sub', '择一式 · 破千军'));
-  s.appendChild(head);
+  c.appendChild(head);
 
   const row = el('div', 'levelup-row');
   let picked = false;
-  const pick = (card, c) => {
+  const pick = (card, c2) => {
     if (picked) return;
     picked = true;
     card.classList.add('picked');
-    setTimeout(() => onPick(c), 250);
+    setTimeout(() => onPick(c2), 250);
   };
 
   const cards = [];
-  for (const c of choices) {
+  for (const ch of choices) {
     const card = el('div', 'scroll-card', `
       <div class="ink-glow"></div>
-      <div class="scroll-kind">${c.kind}</div>
-      <div class="scroll-sigil">${sigilFor(c.kind)}</div>
-      <div class="scroll-name">${c.name}</div>
-      <div class="scroll-lv">Lv. ${c.cur} → ${c.cur + 1}</div>
-      <div class="scroll-desc">${c.desc}</div>`);
-    card.addEventListener('click', () => pick(card, c));
+      <div class="scroll-kind">${ch.kind}</div>
+      <div class="scroll-sigil">${sigilFor(ch.kind)}</div>
+      <div class="scroll-name">${ch.name}</div>
+      <div class="scroll-lv">Lv. ${ch.cur} → ${ch.cur + 1}</div>
+      <div class="scroll-desc">${ch.desc}</div>`);
+    card.addEventListener('click', () => pick(card, ch));
     row.appendChild(card);
-    cards.push({ card, c });
+    cards.push({ card, c: ch });
   }
-  s.appendChild(row);
-  s.appendChild(el('div', 'levelup-tip', '点击选择 · 或按 1 / 2 / 3'));
+  c.appendChild(row);
+  c.appendChild(el('div', 'levelup-tip', '点击选择 · 或按 1 / 2 / 3'));
+  s.appendChild(c);
 
   // 键盘快捷选择
   const onKey = (e) => {
