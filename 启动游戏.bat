@@ -1,5 +1,5 @@
 @echo off
-title Hung Kuen Hordes Launcher
+title Hung Kuen Launcher
 cd /d "%~dp0"
 where python >nul 2>&1
 if %errorlevel%==0 (

@@ -1,12 +1,12 @@
 # 洪拳 · Hung Kuen
 
-一款以洪拳为主题的俯视角武侠动作小游戏（英文名 **Hung Kuen Hordes**）。
+一款以洪拳为主题的俯视角武侠动作小游戏。
 
 灵感来自暖雪 / 吸血鬼幸存者（Vampire Survivors）：
 你在战场上自动出手清掉成片涌来的敌人，拾取「气」经验、升级并从**洪拳招式**中三选一不断变强，最终击败关底 Boss「山贼头目」。
 
-- **源码**：<https://github.com/13413183976txy-debug/hung-kuen-hordes>（公开仓库，随时可克隆/部署）
-- **在线试玩**：<https://13413183976txy-debug.github.io/hung-kuen-hordes/>（GitHub Pages，HTTPS；推送 `main` 即自动重新构建，约 1 分钟生效）
+- **源码**：<https://github.com/13413183976txy-debug/hung-kuen>（公开仓库，随时可克隆/部署）
+- **在线试玩**：<https://13413183976txy-debug.github.io/hung-kuen/>（GitHub Pages，HTTPS；推送 `main` 即自动重新构建，约 1 分钟生效）
 - 纯 HTML + Canvas 2D + 原生 JS（ES Modules），**零依赖、零构建**。
 
 ## 玩法一览
