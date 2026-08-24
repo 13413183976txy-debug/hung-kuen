@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""洪拳割草 - 一键启动器 (Python)
+"""洪拳 · Hung Kuen - 一键启动器 (Python)
 自动: 探测端口 -> 起静态服务器 -> 打开浏览器。由 .bat 调用，处理编码更可靠。
 """
 import os
@@ -45,7 +45,7 @@ star = "=" * 46
 def main():
     print()
     print("  " + star)
-    print("        洪拳割草 · 一键启动  (Hung Kuen Hordes)")
+    print("        洪拳 · Hung Kuen  ·  一键启动")
     print("  " + star)
     print("  " + box("目录: " + ROOT))
     print()
