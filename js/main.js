@@ -1,23 +1,24 @@
 // main.js —— 游戏状态机 + 主循环 + 场景组装
 // 状态：boot -> title -> playing <-> pause -> (levelup 暂停) -> victory/defeat -> restart/title
-import { GAME, DIFFICULTY } from './config.js?v=17';
-import { loadAssets, prebuildOutlines, drawSprite, getSprite } from './assets.js?v=17';
-import { initInput, clearPresses } from './input.js?v=17';
-import { Camera } from './camera.js?v=17';
-import { Player } from './entities/player.js?v=17';
-import { separateEnemies } from './entities/enemies.js?v=17';
-import { Combat } from './systems/combat.js?v=17';
-import { Spawner } from './systems/spawner.js?v=17';
-import { UpgradeSystem } from './systems/upgrades.js?v=17';
-import { Particles } from './systems/particles.js?v=17';
-import { Ambient } from './systems/ambient.js?v=17';
-import { Settings } from './systems/settings.js?v=17';
-import { runSelfCheck } from './systems/devcheck.js?v=17';
-import { BalancePanel } from './systems/balance.js?v=17';
-import { Hud } from './ui/hud.js?v=17';
-import { AudioFX } from './audio.js?v=17';
-import { showTitle, showUpgrade, showVictory, showDefeat, showPause, hideScreens } from './ui/screens.js?v=17';
-import { showTutorial, tickTutorial, dismissTutorial, replayTutorial } from './ui/tutorial.js?v=17';
+import { GAME, DIFFICULTY } from './config.js?v=18';
+import { loadAssets, prebuildOutlines, drawSprite, getSprite } from './assets.js?v=18';
+import { initInput, clearPresses } from './input.js?v=18';
+import { initTouch, setPauseHandler, setRotateHandler, setKReady, isCoarsePointer } from './touch.js?v=18';
+import { Camera } from './camera.js?v=18';
+import { Player } from './entities/player.js?v=18';
+import { separateEnemies } from './entities/enemies.js?v=18';
+import { Combat } from './systems/combat.js?v=18';
+import { Spawner } from './systems/spawner.js?v=18';
+import { UpgradeSystem } from './systems/upgrades.js?v=18';
+import { Particles } from './systems/particles.js?v=18';
+import { Ambient } from './systems/ambient.js?v=18';
+import { Settings } from './systems/settings.js?v=18';
+import { runSelfCheck } from './systems/devcheck.js?v=18';
+import { BalancePanel } from './systems/balance.js?v=18';
+import { Hud } from './ui/hud.js?v=18';
+import { AudioFX } from './audio.js?v=18';
+import { showTitle, showUpgrade, showVictory, showDefeat, showPause, hideScreens } from './ui/screens.js?v=18';
+import { showTutorial, tickTutorial, dismissTutorial, replayTutorial } from './ui/tutorial.js?v=18';
 
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
@@ -25,8 +26,10 @@ const W = GAME.WIDTH, H = GAME.HEIGHT;
 let dpr = 1;
 
 function resize() {
-  // 按设备像素比渲染（最高 2x）：高分屏下画面清晰，且不使用 image-rendering: pixelated
-  dpr = Math.min(window.devicePixelRatio || 1, 2);
+  // 按设备像素比渲染（桌面最高 2x）：高分屏下画面清晰，且不使用 image-rendering: pixelated
+  // 触摸设备（手机/平板）GPU 填满率有限，封顶 1.75：清晰度与帧率折中，可按机况再调低
+  const cap = isCoarsePointer() ? 1.75 : 2;
+  dpr = Math.min(window.devicePixelRatio || 1, cap);
   canvas.width = W * dpr;
   canvas.height = H * dpr;
   fit();
@@ -614,6 +617,7 @@ function update(dt) {
 
   // K 可用亮起反馈（冷却结束瞬间）
   const ready = w.player.specialCooldown <= 0;
+  setKReady(ready);
   if (ready && w._prevReady === false) w.kReadyFlash = 0.35;
   w._prevReady = ready;
   if (w.kReadyFlash > 0) w.kReadyFlash -= dt;
@@ -717,6 +721,12 @@ function buildTitleHandlers() {
 // ---------- 装配 & 启动 ----------
 async function boot() {
   initInput();
+  // 移动端触控层：摇杆/按钮/横屏提示；仅触摸设备注入 DOM
+  initTouch();
+  // 暂停按钮与「进入竖屏自动暂停」共用同一逻辑（旋转期间避免角色白给）
+  const pauseFromTouch = () => { if (state.name === 'playing') togglePause(true); };
+  setPauseHandler(pauseFromTouch);
+  setRotateHandler(pauseFromTouch);
   audio.init();
   audio.muted = Settings.getMuted();   // 静音偏好持久化
   resize();

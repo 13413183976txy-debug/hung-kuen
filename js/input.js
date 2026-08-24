@@ -1,8 +1,13 @@
-// input.js —— 键盘输入
-// 提供全局按键状态：按住检测（isDown）与一次性按键（consumeKeyPress）。
+// input.js —— 键盘 + 触控输入
+// 提供全局输入状态：按住检测（isDown）与一次性按键（consumeKeyPress）。
+// 移动端触控层（touch.js）通过 setTouchAxis / virtualDown / virtualPress 注入同一状态，
+// 因此 player / combat 等游戏逻辑无需感知输入来源。
 
 const keys = new Set();
 const pressed = new Set();
+
+// 触控注入：虚拟摇杆模拟量（-1..1，支持摇杆半程的精细走位）
+const touch = { active: false, x: 0, y: 0 };
 
 export function initInput() {
   window.addEventListener('keydown', (e) => {
@@ -18,10 +23,24 @@ export function initInput() {
   window.addEventListener('blur', () => { keys.clear(); pressed.clear(); });
 }
 
+/* ---------- 触控注入接口（touch.js 调用，游戏逻辑不感知） ---------- */
+
+/** 写入虚拟摇杆向量并启用（归一化模拟量） */
+export function setTouchAxis(x, y) { touch.active = true; touch.x = x; touch.y = y; }
+/** 释放虚拟摇杆（回到键盘输入） */
+export function clearTouchAxis() { touch.active = false; touch.x = 0; touch.y = 0; }
+/** 模拟按住某键（如 J 连击，支持多指同时按住） */
+export function virtualDown(code) { keys.add(code); }
+/** 模拟一次性按键（如 K），长按也不重复 */
+export function virtualPress(code) { pressed.add(code); }
+/** 模拟松开 */
+export function virtualUp(code) { keys.delete(code); }
+
 export function isDown(code) { return keys.has(code); }
 
-/** 返回归一化移动向量（WASD + 方向键） */
+/** 返回归一化移动向量（虚拟摇杆激活时优先，否则 WASD + 方向键） */
 export function moveAxis() {
+  if (touch.active) return { x: touch.x, y: touch.y };
   let x = 0, y = 0;
   if (isDown('KeyA') || isDown('ArrowLeft')) x -= 1;
   if (isDown('KeyD') || isDown('ArrowRight')) x += 1;

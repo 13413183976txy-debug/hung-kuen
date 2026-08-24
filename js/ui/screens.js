@@ -1,6 +1,7 @@
 // ui/screens.js —— 标题 / 升级选招 / 胜利 / 失败 / 暂停 全屏覆盖层
 // 设计语言：岭南洪拳武馆 × 水墨江湖 × 红黑金（无 Emoji、无大圆角卡片）
-import { DIFFICULTY, ASSET_V } from '../config.js?v=17';
+import { DIFFICULTY, ASSET_V } from '../config.js?v=18';
+import { isCoarsePointer } from '../touch.js?v=18';
 
 const layer = () => document.getElementById('ui-layer');
 const clear = () => { if (layer()) layer().innerHTML = ''; };
@@ -128,9 +129,11 @@ export function showTitle(opts) {
   const recLine = `个人纪录 · 最快斩首 ${rec.bestBossTime ? fmt(rec.bestBossTime) : '—'} · 最多斩敌 ${rec.maxKills || '—'} · 最高修为 Lv.${rec.maxLevel || '—'} · 通关 ${rec.wins || 0} 次`;
   c.appendChild(el('div', 'title-records', recLine));
 
-  // 玩家操作：屏幕最底一行小字
+  // 玩家操作：屏幕最底一行小字（触摸设备显示触控按键说明）
   s.appendChild(el('div', 'title-tips',
-    'WASD 移动 · 按住 J 连击 · K 惊涛叠浪 · Esc 暂停 · M 静音'));
+    isCoarsePointer()
+      ? '摇杆移动 · 按住「拳」连击 · 「浪」惊涛叠浪 · 右上「‖」暂停'
+      : 'WASD 移动 · 按住 J 连击 · K 惊涛叠浪 · Esc 暂停 · M 静音'));
 
   s.appendChild(c);
   layer().appendChild(s);
@@ -269,13 +272,16 @@ export function showPause(opts) {
   c.style.cssText = 'position:relative;z-index:4;display:flex;flex-direction:column;align-items:center;';
   c.appendChild(el('div', 'result-title lose', '暂  停'));
   c.appendChild(el('div', 'result-sub', '闭目调息 · 稍后再战'));
-  // 按键说明
+  // 按键说明（触摸设备显示触控按键说明）
   const tips = el('div', 'title-tagline');
   tips.style.fontSize = '14px';
-  tips.innerHTML = `
-    <span>WASD 移动 · 按住 J 自动索敌连击</span>
-    <span>K 惊涛叠浪 · 1/2/3 选择秘籍</span>
-    <span>Esc 暂停 / 继续 · M 静音</span>`;
+  tips.innerHTML = isCoarsePointer()
+    ? `<span>摇杆移动 · 按住「拳」自动索敌连击</span>
+       <span>「浪」惊涛叠浪 · 点选秘籍</span>
+       <span>右上「‖」暂停</span>`
+    : `<span>WASD 移动 · 按住 J 自动索敌连击</span>
+       <span>K 惊涛叠浪 · 1/2/3 选择秘籍</span>
+       <span>Esc 暂停 / 继续 · M 静音</span>`;
   c.appendChild(tips);
   const actions = el('div', 'result-actions');
   actions.appendChild(btn('继  续', '', () => o.onResume && o.onResume()));

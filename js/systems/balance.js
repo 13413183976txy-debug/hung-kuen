@@ -1,6 +1,6 @@
 // systems/balance.js —— 开发用平衡信息面板（F3 切换，默认隐藏）
 // 显示：波次/存活数 / DPS 估算 / 近 10 秒受创 / 等级·已选升级 / K 冷却 / Boss 阶段与技能状态。
-import { UPGRADES, BOSS_PHASES } from '../config.js?v=17';
+import { UPGRADES, BOSS_PHASES } from '../config.js?v=18';
 
 const NAME = Object.fromEntries(UPGRADES.map(u => [u.id, u.name]));
 const NOW = () => performance.now() / 1000;
