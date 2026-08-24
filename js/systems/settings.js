@@ -1,8 +1,7 @@
 // systems/settings.js —— 本地偏好与个人战绩（localStorage，无外部依赖）
-// 键：hg_muted / hg_shake / hg_tutorial / hg_difficulty / hg_records
+// 键：hg_shake / hg_tutorial / hg_difficulty / hg_records
 
 const KEYS = {
-  muted: 'hg_muted',
   shake: 'hg_shake',
   tutorial: 'hg_tutorial',
   difficulty: 'hg_difficulty',
@@ -20,10 +19,6 @@ function write(key, value) {
 }
 
 export const Settings = {
-  /* —— 静音 —— */
-  getMuted() { return read(KEYS.muted, '0') === '1'; },
-  setMuted(m) { write(KEYS.muted, m ? '1' : '0'); },
-
   /* —— 减少屏幕震动 —— */
   getReducedShake() { return read(KEYS.shake, '0') === '1'; },
   setReducedShake(v) { write(KEYS.shake, v ? '1' : '0'); },

@@ -1,6 +1,6 @@
 // ui/hud.js —— 气血 / 内息（卷轴长条）、战局计时·斩敌·波次、Boss 血条与阶段
 // 全部绘制在 960x540 逻辑画布上，配色沿用 CSS 五色。
-import { GAME, BOSS_PHASES } from '../config.js?v=19';
+import { GAME, BOSS_PHASES } from '../config.js?v=20';
 
 const INK = '#17130F';
 const PAPER = '#E9D7AA';
@@ -40,15 +40,6 @@ export class Hud {
 
     // ---- Boss 血条 ----
     this.bossBar(ctx, W, world);
-
-    // ---- 左下：音效状态（M 键）----
-    ctx.textAlign = 'left';
-    ctx.font = `600 10px ${F_BODY}`;
-    ctx.fillStyle = 'rgba(233,215,170,0.5)';
-    ctx.shadowColor = 'rgba(0,0,0,0.8)';
-    ctx.shadowBlur = 3;
-    ctx.fillText(`音效 ${world.audio && world.audio.muted ? '关' : '开'} · M`, 20, GAME.HEIGHT - 14);
-    ctx.shadowBlur = 0;
 
     // ---- Boss 波目标提示（阶段提示之下，Boss 未出场/登场前显示）----
     if (world.spawner.current && world.spawner.current.bossWave && !world.bossDefeated) {

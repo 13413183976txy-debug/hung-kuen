@@ -5,10 +5,10 @@
 //  - Boss  ：三阶段技能（一阶段近战斩 → 二阶段蓄力冲锋 → 三阶段红扇形斩），
 //            每个技能 = 蓄力提示（朱砂预警区+音效）→ 有效帧（伤害仅结算一次）→ 收招硬直
 // 所有技能参数集中在 config.js 的 BLADE_SKILL / HAMMER_SKILL / BOSS_SKILLS。
-import { Entity } from './entity.js?v=19';
-import { ENEMY, GAME, BLADE_SKILL, HAMMER_SKILL, BOSS_SKILLS } from '../config.js?v=19';
-import { bossPhaseIndex, decideBossSkill } from './bossai.js?v=19';
-import { dist, angleTo, angleDiff, norm, clamp } from '../utils.js?v=19';
+import { Entity } from './entity.js?v=20';
+import { ENEMY, GAME, BLADE_SKILL, HAMMER_SKILL, BOSS_SKILLS } from '../config.js?v=20';
+import { bossPhaseIndex, decideBossSkill } from './bossai.js?v=20';
+import { dist, angleTo, angleDiff, norm, clamp } from '../utils.js?v=20';
 
 let nextId = 1;
 

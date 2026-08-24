@@ -1,8 +1,8 @@
 // entities/player.js —— 主角（蓝衣洪拳弟子）
-import { Entity } from './entity.js?v=19';
-import { PLAYER, GAME } from '../config.js?v=19';
-import { moveAxis, isDown, consumeKeyPress } from '../input.js?v=19';
-import { clamp } from '../utils.js?v=19';
+import { Entity } from './entity.js?v=20';
+import { PLAYER, GAME } from '../config.js?v=20';
+import { moveAxis, isDown, consumeKeyPress } from '../input.js?v=20';
+import { clamp } from '../utils.js?v=20';
 
 export class Player extends Entity {
   constructor(x, y) {

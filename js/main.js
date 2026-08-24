@@ -1,24 +1,24 @@
 // main.js —— 游戏状态机 + 主循环 + 场景组装
 // 状态：boot -> title -> playing <-> pause -> (levelup 暂停) -> victory/defeat -> restart/title
-import { GAME, DIFFICULTY } from './config.js?v=19';
-import { loadAssets, prebuildOutlines, drawSprite, getSprite } from './assets.js?v=19';
-import { initInput, clearPresses } from './input.js?v=19';
-import { initTouch, setPauseHandler, setRotateHandler, setKReady, isCoarsePointer } from './touch.js?v=19';
-import { Camera } from './camera.js?v=19';
-import { Player } from './entities/player.js?v=19';
-import { separateEnemies } from './entities/enemies.js?v=19';
-import { Combat } from './systems/combat.js?v=19';
-import { Spawner } from './systems/spawner.js?v=19';
-import { UpgradeSystem } from './systems/upgrades.js?v=19';
-import { Particles } from './systems/particles.js?v=19';
-import { Ambient } from './systems/ambient.js?v=19';
-import { Settings } from './systems/settings.js?v=19';
-import { runSelfCheck } from './systems/devcheck.js?v=19';
-import { BalancePanel } from './systems/balance.js?v=19';
-import { Hud } from './ui/hud.js?v=19';
-import { AudioFX } from './audio.js?v=19';
-import { showTitle, showUpgrade, showVictory, showDefeat, showPause, hideScreens } from './ui/screens.js?v=19';
-import { showTutorial, tickTutorial, dismissTutorial, replayTutorial } from './ui/tutorial.js?v=19';
+import { GAME, DIFFICULTY } from './config.js?v=20';
+import { loadAssets, prebuildOutlines, drawSprite, getSprite } from './assets.js?v=20';
+import { initInput, clearPresses } from './input.js?v=20';
+import { initTouch, setPauseHandler, setRotateHandler, setKReady, isCoarsePointer } from './touch.js?v=20';
+import { Camera } from './camera.js?v=20';
+import { Player } from './entities/player.js?v=20';
+import { separateEnemies } from './entities/enemies.js?v=20';
+import { Combat } from './systems/combat.js?v=20';
+import { Spawner } from './systems/spawner.js?v=20';
+import { UpgradeSystem } from './systems/upgrades.js?v=20';
+import { Particles } from './systems/particles.js?v=20';
+import { Ambient } from './systems/ambient.js?v=20';
+import { Settings } from './systems/settings.js?v=20';
+import { runSelfCheck } from './systems/devcheck.js?v=20';
+import { BalancePanel } from './systems/balance.js?v=20';
+import { Hud } from './ui/hud.js?v=20';
+import { AudioFX } from './audio.js?v=20';
+import { showTitle, showUpgrade, showVictory, showDefeat, showPause, hideScreens } from './ui/screens.js?v=20';
+import { showTutorial, tickTutorial, dismissTutorial, replayTutorial } from './ui/tutorial.js?v=20';
 
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
@@ -124,16 +124,11 @@ function makeWorld() {
   return w;
 }
 
-// ---------- 全球按键：暂停 / 静音 ----------
+// ---------- 全球按键：暂停 / 开发面板 ----------
 window.addEventListener('keydown', (e) => {
   if (e.code === 'Escape') {
     if (state.name === 'playing') togglePause(true);
     else if (state.name === 'pause') togglePause(false);
-  } else if (e.code === 'KeyM') {
-    audio.toggleMute();
-    Settings.setMuted(audio.muted);
-    const el = document.querySelector('[data-mute-state]');
-    if (el) el.textContent = audio.muted ? '音效：关' : '音效：开';
   } else if (e.code === 'F3') {
     e.preventDefault();               // 阻止浏览器查找
     balancePanel.toggle();
@@ -149,11 +144,9 @@ function togglePause(on) {
   if (on) {
     state.name = 'pause';
     showPause({
-      muted: audio.muted,
       reducedShake: Settings.getReducedShake(),
       onResume: () => { hideScreens(); state.name = 'playing'; },
       onRestart: () => { hideScreens(); restart(); },
-      onMute: () => { audio.toggleMute(); Settings.setMuted(audio.muted); return audio.muted; },
       onReplay: () => { hideScreens(); state.name = 'playing'; replayTutorial(); },
       onShake: () => {
         Settings.setReducedShake(!Settings.getReducedShake());
@@ -757,7 +750,7 @@ async function boot() {
   setPauseHandler(pauseFromTouch);
   setRotateHandler(pauseFromTouch);
   audio.init();
-  audio.muted = Settings.getMuted();   // 静音偏好持久化
+  audio.muted = false;   // 不提供声音选项，恒为关闭状态（引擎保留备用）
   resize();
 
   const loadResults = await loadAssets();

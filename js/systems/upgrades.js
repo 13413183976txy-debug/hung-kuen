@@ -6,7 +6,7 @@
 //  - 生命 <35% 时提高生存卡权重（仍保留至少一张输出卡）；
 //  - 前 3 次升级优先基础输出、攻速、范围与生存，大招卡降低权重；
 //  - 卡面信息：招式名、类别、当前等级（Lv.n → n+1）、本次实际变化文本。
-import { UPGRADES, KIND_GROUPS } from '../config.js?v=19';
+import { UPGRADES, KIND_GROUPS } from '../config.js?v=20';
 
 // —— 开发校验：升级只能读写“战斗代码实际读取”的字段（防卡面有效、代码无效）——
 const READ_FIELDS = new Set([

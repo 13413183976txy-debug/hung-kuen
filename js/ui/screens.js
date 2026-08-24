@@ -1,7 +1,7 @@
 // ui/screens.js —— 标题 / 升级选招 / 胜利 / 失败 / 暂停 全屏覆盖层
 // 设计语言：岭南洪拳武馆 × 水墨江湖 × 红黑金（无 Emoji、无大圆角卡片）
-import { DIFFICULTY, ASSET_V } from '../config.js?v=19';
-import { isCoarsePointer } from '../touch.js?v=19';
+import { DIFFICULTY, ASSET_V } from '../config.js?v=20';
+import { isCoarsePointer } from '../touch.js?v=20';
 
 const layer = () => document.getElementById('ui-layer');
 const clear = () => { if (layer()) layer().innerHTML = ''; };
@@ -140,7 +140,7 @@ export function showTitle(opts) {
   // 玩家操作：屏幕最底一行小字（触摸设备显示触控按键说明）
   const tipsText = isCoarsePointer()
     ? '摇杆移动 · 按住「拳」连击 · 「浪」惊涛叠浪 · 右上「‖」暂停'
-    : 'WASD 移动 · 按住 J 连击 · K 惊涛叠浪 · Esc 暂停 · M 静音';
+    : 'WASD 移动 · 按住 J 连击 · K 惊涛叠浪 · Esc 暂停';
   s.appendChild(el('div', 'title-tips', tipsText + (modV ? ' · v' + modV : '')));
 
   s.appendChild(c);
@@ -295,19 +295,12 @@ export function showPause(opts) {
        <span>右上「‖」暂停</span>`
     : `<span>WASD 移动 · 按住 J 自动索敌连击</span>
        <span>K 惊涛叠浪 · 1/2/3 选择秘籍</span>
-       <span>Esc 暂停 / 继续 · M 静音</span>`;
+       <span>Esc 暂停 / 继续</span>`;
   c.appendChild(tips);
   const actions = el('div', 'result-actions');
   actions.appendChild(btn('继  续', '', () => o.onResume && o.onResume()));
   actions.appendChild(btn('重新开始', 'small', () => o.onRestart && o.onRestart()));
   actions.appendChild(btn('重看操作', 'small', () => o.onReplay && o.onReplay()));
-  const mute = btn('', 'small', () => {
-    const m = o.onMute();
-    mute.textContent = m ? '音效：关' : '音效：开';
-  });
-  mute.setAttribute('data-mute-state', '');
-  mute.textContent = o.muted ? '音效：关' : '音效：开';
-  actions.appendChild(mute);
   const shake = btn('', 'small', () => {
     const on = o.onShake();
     shake.textContent = on ? '震动：减' : '震动：全';

@@ -6,7 +6,7 @@
 //    描边在“约 2 倍显示尺寸”的低分辨率下生成（像素量缩小几十倍），
 //    并由 prebuildOutlines() 在加载后异步分批完成，不阻塞点击开始的首页与首帧。
 
-import { SPRITES, ASSET_V } from './config.js?v=19';
+import { SPRITES, ASSET_V } from './config.js?v=20';
 
 const cache = new Map();        // key -> {img, size, loaded, frames}
 const outlineCache = new Map(); // key -> {canvas, frames, fw, fh, small}
