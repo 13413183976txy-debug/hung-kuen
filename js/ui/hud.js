@@ -1,6 +1,6 @@
 // ui/hud.js —— 气血 / 内息（卷轴长条）、战局计时·斩敌·波次、Boss 血条与阶段
 // 全部绘制在 960x540 逻辑画布上，配色沿用 CSS 五色。
-import { GAME, BOSS_PHASES } from '../config.js?v=20';
+import { GAME, BOSS_PHASES } from '../config.js?v=21';
 
 const INK = '#17130F';
 const PAPER = '#E9D7AA';

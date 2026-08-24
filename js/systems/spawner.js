@@ -2,9 +2,9 @@
 // 小兵一律从地图（草坪）边缘刷出后向主角靠近；
 // 最终 Boss 波只出 Boss 本体、不再刷小兵，且不按时间结束（胜负由 Boss 死亡决定）；
 // Boss 死亡后由 main 走“清场淡出 → 胜利”流程（见 spawner.stopSpawning）。
-import { WAVES, GAME } from '../config.js?v=20';
-import { makeEnemy } from '../entities/enemies.js?v=20';
-import { pick } from '../utils.js?v=20';
+import { WAVES, GAME } from '../config.js?v=21';
+import { makeEnemy } from '../entities/enemies.js?v=21';
+import { pick } from '../utils.js?v=21';
 
 export class Spawner {
   constructor(world) {

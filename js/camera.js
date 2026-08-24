@@ -1,6 +1,6 @@
 // camera.js —— 相机跟随 + 屏幕震动
-import { clamp, lerp } from './utils.js?v=20';
-import { GAME } from './config.js?v=20';
+import { clamp, lerp } from './utils.js?v=21';
+import { GAME } from './config.js?v=21';
 
 export class Camera {
   constructor() {

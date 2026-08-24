@@ -1,7 +1,7 @@
 // entities/bossai.js —— Boss 技能决策（独立模块，便于单独调参/审查）
 // 阶段由血量驱动：0（>66%）常规近战；1（33~66%）解锁蓄力冲锋；2（<33%）解锁血刃横扫。
 // 每技能独立冷却；修罗难度按 DIFFICULTY.bossCd 缩短冷却（倍率在 config.js）。
-import { BOSS_SKILLS } from '../config.js?v=20';
+import { BOSS_SKILLS } from '../config.js?v=21';
 
 export function bossPhaseIndex(enemy) {
   const r = enemy.hp / enemy.maxHp;

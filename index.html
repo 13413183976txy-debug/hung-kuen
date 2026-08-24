@@ -15,8 +15,17 @@
   <meta property="og:image" content="https://13413183976txy-debug.github.io/hung-kuen/assets/sprites/ui/victory.png?v=17" />
 
   <meta name="theme-color" content="#17130F" />
+
+  <!-- PWA：添加到主屏幕后以全屏应用方式运行，脱离浏览器工具栏（配合 manifest.webmanifest） -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="洪拳" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/sprites/ui/icon-192.png?v=21" />
+
   <link rel="icon" type="image/png" href="assets/sprites/hero/idle.png?v=17" />
-  <link rel="stylesheet" href="css/style.css?v=20" />
+  <link rel="stylesheet" href="css/style.css?v=21" />
 </head>
 
 <body>
@@ -30,7 +39,7 @@
   <div id="boot-tip" style="display:none">加载中…</div>
 
   <!-- 按依赖顺序加载 ES Modules（需静态服务器，勿用 file://） -->
-  <script type="module" src="js/main.js?v=20"></script>
+  <script type="module" src="js/main.js?v=21"></script>
 
   <!-- 兜底：模块加载失败（缓存混用/服务器异常）时给出明确提示而非黑屏 -->
   <script>

@@ -8,7 +8,7 @@
 //  - dmgText   ：浮空伤害数字（暴击更大更红）
 //  - qiWisp    ：金色气劲（升级时向角色汇聚）
 //  - qiRing    ：金色气环（升级/暴击涟漪）
-import { hexToRgb, TAU } from '../utils.js?v=20';
+import { hexToRgb, TAU } from '../utils.js?v=21';
 
 const INK_RGB = hexToRgb('#17130F');
 const PAPER_RGB = hexToRgb('#E9D7AA');

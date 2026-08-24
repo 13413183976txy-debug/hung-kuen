@@ -1,0 +1,16 @@
+{
+  "name": "洪拳 · Hung Kuen",
+  "short_name": "洪拳",
+  "description": "俯视角武侠动作小游戏：自动出手清怪、拾气升级、三选一习得武学，最终击败关底 Boss。",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#17130F",
+  "theme_color": "#17130F",
+  "icons": [
+    { "src": "assets/sprites/ui/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/sprites/ui/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

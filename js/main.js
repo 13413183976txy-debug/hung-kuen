@@ -1,24 +1,24 @@
 // main.js —— 游戏状态机 + 主循环 + 场景组装
 // 状态：boot -> title -> playing <-> pause -> (levelup 暂停) -> victory/defeat -> restart/title
-import { GAME, DIFFICULTY } from './config.js?v=20';
-import { loadAssets, prebuildOutlines, drawSprite, getSprite } from './assets.js?v=20';
-import { initInput, clearPresses } from './input.js?v=20';
-import { initTouch, setPauseHandler, setRotateHandler, setKReady, isCoarsePointer } from './touch.js?v=20';
-import { Camera } from './camera.js?v=20';
-import { Player } from './entities/player.js?v=20';
-import { separateEnemies } from './entities/enemies.js?v=20';
-import { Combat } from './systems/combat.js?v=20';
-import { Spawner } from './systems/spawner.js?v=20';
-import { UpgradeSystem } from './systems/upgrades.js?v=20';
-import { Particles } from './systems/particles.js?v=20';
-import { Ambient } from './systems/ambient.js?v=20';
-import { Settings } from './systems/settings.js?v=20';
-import { runSelfCheck } from './systems/devcheck.js?v=20';
-import { BalancePanel } from './systems/balance.js?v=20';
-import { Hud } from './ui/hud.js?v=20';
-import { AudioFX } from './audio.js?v=20';
-import { showTitle, showUpgrade, showVictory, showDefeat, showPause, hideScreens } from './ui/screens.js?v=20';
-import { showTutorial, tickTutorial, dismissTutorial, replayTutorial } from './ui/tutorial.js?v=20';
+import { GAME, DIFFICULTY } from './config.js?v=21';
+import { loadAssets, prebuildOutlines, drawSprite, getSprite } from './assets.js?v=21';
+import { initInput, clearPresses } from './input.js?v=21';
+import { initTouch, setPauseHandler, setRotateHandler, setKReady, isCoarsePointer } from './touch.js?v=21';
+import { Camera } from './camera.js?v=21';
+import { Player } from './entities/player.js?v=21';
+import { separateEnemies } from './entities/enemies.js?v=21';
+import { Combat } from './systems/combat.js?v=21';
+import { Spawner } from './systems/spawner.js?v=21';
+import { UpgradeSystem } from './systems/upgrades.js?v=21';
+import { Particles } from './systems/particles.js?v=21';
+import { Ambient } from './systems/ambient.js?v=21';
+import { Settings } from './systems/settings.js?v=21';
+import { runSelfCheck } from './systems/devcheck.js?v=21';
+import { BalancePanel } from './systems/balance.js?v=21';
+import { Hud } from './ui/hud.js?v=21';
+import { AudioFX } from './audio.js?v=21';
+import { showTitle, showUpgrade, showVictory, showDefeat, showPause, hideScreens } from './ui/screens.js?v=21';
+import { showTutorial, tickTutorial, dismissTutorial, replayTutorial } from './ui/tutorial.js?v=21';
 
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
@@ -727,7 +727,26 @@ function toTitle() {
 
 function startGame() {
   audio.init();
+  enterAppMode();
   restart();
+}
+
+/**
+ * 进入「应用模式」：全屏 + 锁定横屏（仅触摸设备）。
+ * 部分浏览器（Via 等）会把工具栏画在网页上方且页面无从测量；
+ * 全屏后浏览器 UI 整体消失，画面即所见的全部（Android Chrome/WebView 支持；
+ * iOS Safari 不支持元素全屏，走 PWA「添加到主屏幕」独立运行方案）。
+ */
+async function enterAppMode() {
+  if (!isCoarsePointer()) return;
+  try {
+    if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+      await document.documentElement.requestFullscreen();
+    }
+    if (window.screen.orientation && screen.orientation.lock) {
+      await screen.orientation.lock('landscape');
+    }
+  } catch (e) { /* 支持度不足时静默忽略，游戏照常运行 */ }
 }
 
 function buildTitleHandlers() {
