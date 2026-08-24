@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>洪拳 · Hung Kuen</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <!-- 游戏画布 -->
+  <canvas id="game"></canvas>
+
+  <!-- UI 覆盖层（标题/选招/胜利/失败 全部在此层，由 screens.js 注入） -->
+  <div id="ui-layer"></div>
+
+  <!-- 提示 -->
+  <div id="boot-tip" style="display:none">加载中…</div>
+
+  <!-- 按依赖顺序加载 ES Modules（需静态服务器，勿用 file://） -->
+  <script type="module" src="js/main.js?v=16"></script>
+
+  <!-- 兜底：模块加载失败（缓存混用/服务器异常）时给出明确提示而非黑屏 -->
+  <script>
+    setTimeout(function () {
+      if (!window.__hg) {
+        var tip = document.getElementById('boot-tip');
+        if (tip) {
+          tip.style.display = 'flex';
+          tip.textContent = '脚本加载失败：请强制刷新（Ctrl + F5），并确认 http 服务器仍在运行';
+        }
+      }
+    }, 4000);
+  </script>
+</body>
+
+</html>
