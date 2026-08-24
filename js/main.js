@@ -1,23 +1,23 @@
 // main.js —— 游戏状态机 + 主循环 + 场景组装
 // 状态：boot -> title -> playing <-> pause -> (levelup 暂停) -> victory/defeat -> restart/title
-import { GAME, DIFFICULTY } from './config.js?v=16';
-import { loadAssets, prebuildOutlines, drawSprite, getSprite } from './assets.js?v=16';
-import { initInput, clearPresses } from './input.js?v=16';
-import { Camera } from './camera.js?v=16';
-import { Player } from './entities/player.js?v=16';
-import { separateEnemies } from './entities/enemies.js?v=16';
-import { Combat } from './systems/combat.js?v=16';
-import { Spawner } from './systems/spawner.js?v=16';
-import { UpgradeSystem } from './systems/upgrades.js?v=16';
-import { Particles } from './systems/particles.js?v=16';
-import { Ambient } from './systems/ambient.js?v=16';
-import { Settings } from './systems/settings.js?v=16';
-import { runSelfCheck } from './systems/devcheck.js?v=16';
-import { BalancePanel } from './systems/balance.js?v=16';
-import { Hud } from './ui/hud.js?v=16';
-import { AudioFX } from './audio.js?v=16';
-import { showTitle, showUpgrade, showVictory, showDefeat, showPause, hideScreens } from './ui/screens.js?v=16';
-import { showTutorial, tickTutorial, dismissTutorial, replayTutorial } from './ui/tutorial.js?v=16';
+import { GAME, DIFFICULTY } from './config.js?v=17';
+import { loadAssets, prebuildOutlines, drawSprite, getSprite } from './assets.js?v=17';
+import { initInput, clearPresses } from './input.js?v=17';
+import { Camera } from './camera.js?v=17';
+import { Player } from './entities/player.js?v=17';
+import { separateEnemies } from './entities/enemies.js?v=17';
+import { Combat } from './systems/combat.js?v=17';
+import { Spawner } from './systems/spawner.js?v=17';
+import { UpgradeSystem } from './systems/upgrades.js?v=17';
+import { Particles } from './systems/particles.js?v=17';
+import { Ambient } from './systems/ambient.js?v=17';
+import { Settings } from './systems/settings.js?v=17';
+import { runSelfCheck } from './systems/devcheck.js?v=17';
+import { BalancePanel } from './systems/balance.js?v=17';
+import { Hud } from './ui/hud.js?v=17';
+import { AudioFX } from './audio.js?v=17';
+import { showTitle, showUpgrade, showVictory, showDefeat, showPause, hideScreens } from './ui/screens.js?v=17';
+import { showTutorial, tickTutorial, dismissTutorial, replayTutorial } from './ui/tutorial.js?v=17';
 
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');

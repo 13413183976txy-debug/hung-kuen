@@ -3,6 +3,9 @@
 // 说明：所有战斗数值集中在本文档；技能参数（蓄力/有效帧/硬直/冷却）同样在此，
 //       禁止在其它文件中硬编码同一数值。
 
+// 素材缓存版本号：替换/压缩 assets/sprites/** 后递增（assets.js 与胜利图 <img> 共用）
+export const ASSET_V = '17';
+
 const MAP_SCALE = 1.9;
 
 export const GAME = {

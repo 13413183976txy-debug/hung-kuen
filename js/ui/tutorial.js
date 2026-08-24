@@ -1,6 +1,6 @@
 // ui/tutorial.js —— 首局引导：三条短提示依次淡入淡出
 // 每条最多 2.5s；任意移动/攻击键提前淡出；完成或重看后置位 localStorage。
-import { Settings } from '../systems/settings.js?v=16';
+import { Settings } from '../systems/settings.js?v=17';
 
 const TIPS = ['WASD · 游走避敌', '按住 J · 自动连击', 'K · 水波破围'];
 const MAX_SHOW = 2.5;

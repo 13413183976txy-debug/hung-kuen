@@ -6,7 +6,7 @@
 //    描边在“约 2 倍显示尺寸”的低分辨率下生成（像素量缩小几十倍），
 //    并由 prebuildOutlines() 在加载后异步分批完成，不阻塞点击开始的首页与首帧。
 
-import { SPRITES } from './config.js?v=16';
+import { SPRITES, ASSET_V } from './config.js?v=17';
 
 const cache = new Map();        // key -> {img, size, loaded, frames}
 const outlineCache = new Map(); // key -> {canvas, frames, fw, fh, small}
@@ -25,7 +25,7 @@ export function loadAssets() {
       cache.set(name, { img: null, size: def.size, loaded: false, frames: def.frames || 1 });
       resolve({ name, ok: false });
     };
-    img.src = def.src;
+    img.src = def.src + '?v=' + ASSET_V;   // 素材缓存版本号（config.ASSET_V）
   })));
 }
 

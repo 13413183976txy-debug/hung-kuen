@@ -1,7 +1,7 @@
 // systems/combat.js —— 主动攻击结算 / 命中 / 击杀 / 打击感触发
-import { PLAYER } from '../config.js?v=16';
-import { dist, angleTo, norm } from '../utils.js?v=16';
-import { Pickup } from '../entities/pickups.js?v=16';
+import { PLAYER } from '../config.js?v=17';
+import { dist, angleTo, norm } from '../utils.js?v=17';
+import { Pickup } from '../entities/pickups.js?v=17';
 
 export class Combat {
   constructor(world) { this.world = world; }

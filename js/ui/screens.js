@@ -1,6 +1,6 @@
 // ui/screens.js —— 标题 / 升级选招 / 胜利 / 失败 / 暂停 全屏覆盖层
 // 设计语言：岭南洪拳武馆 × 水墨江湖 × 红黑金（无 Emoji、无大圆角卡片）
-import { DIFFICULTY } from '../config.js?v=16';
+import { DIFFICULTY, ASSET_V } from '../config.js?v=17';
 
 const layer = () => document.getElementById('ui-layer');
 const clear = () => { if (layer()) layer().innerHTML = ''; };
@@ -200,7 +200,7 @@ export function showVictory(stats, handlers) {
   // 主视觉：胜利徽章（金环星芒 · 朱砂圆盘 · 墨影）
   const emblemWrap = el('div', 'victory-emblem-wrap');
   const img = el('img', 'victory-emblem', '');
-  img.src = 'assets/sprites/ui/victory.png';
+  img.src = 'assets/sprites/ui/victory.png?v=' + ASSET_V;
   img.alt = '胜利';
   emblemWrap.appendChild(img);
   if (stats.newBestTime) emblemWrap.appendChild(el('div', 'record-stamp', '新纪录'));
