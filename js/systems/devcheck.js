@@ -1,7 +1,7 @@
 // systems/devcheck.js —— 启动 self-check（只 console.warn，不阻断游戏）
 // 检查项：精灵加载失败 / 升级 fields 对应实际读取字段（见 upgrades.js 校验）/
 //         波次合法（最后一波为 Boss 波且仅一个）/ 难度倍率有效。
-import { WAVES, DIFFICULTY } from '../config.js?v=18';
+import { WAVES, DIFFICULTY } from '../config.js?v=19';
 
 export function runSelfCheck(loadResults) {
   // 1) 精灵路径可加载

@@ -1,29 +1,51 @@
 // main.js —— 游戏状态机 + 主循环 + 场景组装
 // 状态：boot -> title -> playing <-> pause -> (levelup 暂停) -> victory/defeat -> restart/title
-import { GAME, DIFFICULTY } from './config.js?v=18';
-import { loadAssets, prebuildOutlines, drawSprite, getSprite } from './assets.js?v=18';
-import { initInput, clearPresses } from './input.js?v=18';
-import { initTouch, setPauseHandler, setRotateHandler, setKReady, isCoarsePointer } from './touch.js?v=18';
-import { Camera } from './camera.js?v=18';
-import { Player } from './entities/player.js?v=18';
-import { separateEnemies } from './entities/enemies.js?v=18';
-import { Combat } from './systems/combat.js?v=18';
-import { Spawner } from './systems/spawner.js?v=18';
-import { UpgradeSystem } from './systems/upgrades.js?v=18';
-import { Particles } from './systems/particles.js?v=18';
-import { Ambient } from './systems/ambient.js?v=18';
-import { Settings } from './systems/settings.js?v=18';
-import { runSelfCheck } from './systems/devcheck.js?v=18';
-import { BalancePanel } from './systems/balance.js?v=18';
-import { Hud } from './ui/hud.js?v=18';
-import { AudioFX } from './audio.js?v=18';
-import { showTitle, showUpgrade, showVictory, showDefeat, showPause, hideScreens } from './ui/screens.js?v=18';
-import { showTutorial, tickTutorial, dismissTutorial, replayTutorial } from './ui/tutorial.js?v=18';
+import { GAME, DIFFICULTY } from './config.js?v=19';
+import { loadAssets, prebuildOutlines, drawSprite, getSprite } from './assets.js?v=19';
+import { initInput, clearPresses } from './input.js?v=19';
+import { initTouch, setPauseHandler, setRotateHandler, setKReady, isCoarsePointer } from './touch.js?v=19';
+import { Camera } from './camera.js?v=19';
+import { Player } from './entities/player.js?v=19';
+import { separateEnemies } from './entities/enemies.js?v=19';
+import { Combat } from './systems/combat.js?v=19';
+import { Spawner } from './systems/spawner.js?v=19';
+import { UpgradeSystem } from './systems/upgrades.js?v=19';
+import { Particles } from './systems/particles.js?v=19';
+import { Ambient } from './systems/ambient.js?v=19';
+import { Settings } from './systems/settings.js?v=19';
+import { runSelfCheck } from './systems/devcheck.js?v=19';
+import { BalancePanel } from './systems/balance.js?v=19';
+import { Hud } from './ui/hud.js?v=19';
+import { AudioFX } from './audio.js?v=19';
+import { showTitle, showUpgrade, showVictory, showDefeat, showPause, hideScreens } from './ui/screens.js?v=19';
+import { showTutorial, tickTutorial, dismissTutorial, replayTutorial } from './ui/tutorial.js?v=19';
 
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 const W = GAME.WIDTH, H = GAME.HEIGHT;
 let dpr = 1;
+
+function viewportMetrics() {
+  // 移动端浏览器（Chrome Android / Via / Firefox 等）地址栏可能覆盖页面：
+  // window.innerWidth/innerHeight 与 position:fixed 参考的是 layout viewport，
+  // 而视觉上真正可见的区域是 visual viewport（不含浏览器 UI）。
+  // 一切定位以 visual viewport 为准；不可用时回退 innerWidth/innerHeight。
+  const vv = window.visualViewport;
+  if (vv && vv.width > 0) {
+    return { w: vv.width, h: vv.height, left: vv.offsetLeft, top: vv.offsetTop };
+  }
+  return { w: window.innerWidth, h: window.innerHeight, left: 0, top: 0 };
+}
+
+/** 把可见区域写入 CSS 变量，供全屏覆盖层 / 触控层 / 横屏提示定位（避开被地址栏遮挡的区域） */
+function applyViewportVars() {
+  const v = viewportMetrics();
+  const rs = document.documentElement.style;
+  rs.setProperty('--vp-w', v.w + 'px');
+  rs.setProperty('--vp-h', v.h + 'px');
+  rs.setProperty('--vp-left', v.left + 'px');
+  rs.setProperty('--vp-top', v.top + 'px');
+}
 
 function resize() {
   // 按设备像素比渲染（桌面最高 2x）：高分屏下画面清晰，且不使用 image-rendering: pixelated
@@ -32,22 +54,29 @@ function resize() {
   dpr = Math.min(window.devicePixelRatio || 1, cap);
   canvas.width = W * dpr;
   canvas.height = H * dpr;
+  applyViewportVars();
   fit();
 }
 function fit() {
-  // 等比缩放（contain）：保留完整画面，居中
-  const scale = Math.min(window.innerWidth / W, window.innerHeight / H);
+  // 等比缩放（contain）：保留完整画面，居中（以 visual viewport 为准）
+  const v = viewportMetrics();
+  const scale = Math.min(v.w / W, v.h / H);
   canvas.style.width = (W * scale) + 'px';
   canvas.style.height = (H * scale) + 'px';
   canvas.style.position = 'absolute';
-  canvas.style.left = ((window.innerWidth - W * scale) / 2) + 'px';
-  canvas.style.top = ((window.innerHeight - H * scale) / 2) + 'px';
+  canvas.style.left = (v.left + (v.w - W * scale) / 2) + 'px';
+  canvas.style.top = (v.top + (v.h - H * scale) / 2) + 'px';
   canvas.style.maxWidth = 'none';
   canvas.style.maxHeight = 'none';
 }
 
 canvas.addEventListener('click', () => audio.init());
-window.addEventListener('resize', fit);
+// 地址栏伸缩/收起会引起可视区域变化：visualViewport 的 resize/scroll 是唯一可靠信号
+window.addEventListener('resize', resize);
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', resize);
+  window.visualViewport.addEventListener('scroll', fit);
+}
 
 // ---------- 全局运行时 ----------
 const audio = new AudioFX();

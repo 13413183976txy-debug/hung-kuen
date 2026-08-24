@@ -1,7 +1,7 @@
 // entities/pickups.js —— 「气」经验珠拾取
 // 敌人死亡掉落，主角靠近后自动吸收并积累经验。
-import { dist2 } from '../utils.js?v=18';
-import { PLAYER } from '../config.js?v=18';
+import { dist2 } from '../utils.js?v=19';
+import { PLAYER } from '../config.js?v=19';
 
 export class Pickup {
   constructor(x, y, value = 2) {

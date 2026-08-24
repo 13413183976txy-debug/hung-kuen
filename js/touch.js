@@ -3,7 +3,7 @@
 // 以及竖屏提示「请横屏游玩」。
 // 所有输入经 input.js 注入同一输入状态，本文件不触碰任何游戏逻辑；
 // 仅在粗指针（触摸）设备上启用，桌面键盘用户完全不受影响。
-import { setTouchAxis, clearTouchAxis, virtualDown, virtualPress, virtualUp } from './input.js?v=18';
+import { setTouchAxis, clearTouchAxis, virtualDown, virtualPress, virtualUp } from './input.js?v=19';
 
 /** 是否为触摸设备（粗指针）。供输入 / 文案 / 渲染精度共用。 */
 export function isCoarsePointer() {

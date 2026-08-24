@@ -1,7 +1,7 @@
 // ui/tutorial.js —— 首局引导：三条短提示依次淡入淡出
 // 每条最多 2.5s；任意移动/攻击键提前淡出；完成或重看后置位 localStorage。
-import { Settings } from '../systems/settings.js?v=18';
-import { isCoarsePointer } from '../touch.js?v=18';
+import { Settings } from '../systems/settings.js?v=19';
+import { isCoarsePointer } from '../touch.js?v=19';
 
 const TOUCH = isCoarsePointer();
 const TIPS = TOUCH

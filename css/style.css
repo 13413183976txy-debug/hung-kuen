@@ -44,6 +44,10 @@ html, body {
   user-select: none;
   -webkit-font-smoothing: antialiased;
 }
+/* 动态视口高度：地址栏伸缩时跟随真实可见高度（老旧浏览器回退 100%） */
+@supports (height: 100dvh) {
+  html, body { height: 100dvh; }
+}
 
 /* 全局宣纸噪点（暗色颗粒，只压得很轻） */
 body::before {
@@ -71,7 +75,11 @@ body::before {
 /* ---------- UI 覆盖层 ---------- */
 #ui-layer {
   position: fixed;
-  inset: 0;
+  /* 以 visual viewport（不含浏览器地址栏的可见区域）定位，避免顶部内容被导航栏遮挡 */
+  top: var(--vp-top, 0);
+  left: var(--vp-left, 0);
+  width: var(--vp-w, 100vw);
+  height: var(--vp-h, 100dvh);
   pointer-events: none;      /* 默认穿透；子元素需要交互时单独开启 */
   display: flex;
   align-items: center;
@@ -83,7 +91,10 @@ body::before {
 
 #boot-tip {
   position: fixed;
-  inset: 0;
+  top: var(--vp-top, 0);
+  left: var(--vp-left, 0);
+  width: var(--vp-w, 100vw);
+  height: var(--vp-h, 100dvh);
   display: none;
   align-items: center;
   justify-content: center;
@@ -99,7 +110,10 @@ body::before {
    ============================================================ */
 .screen {
   position: fixed;
-  inset: 0;
+  top: var(--vp-top, 0);
+  left: var(--vp-left, 0);
+  width: var(--vp-w, 100vw);
+  height: var(--vp-h, 100dvh);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -761,7 +775,10 @@ body { -webkit-touch-callout: none; }
 /* ---------- 触控层容器 ---------- */
 #touch-ui {
   position: fixed;
-  inset: 0;
+  top: var(--vp-top, 0);
+  left: var(--vp-left, 0);
+  width: var(--vp-w, 100vw);
+  height: var(--vp-h, 100dvh);
   z-index: 15;          /* 画布之上、全屏界面(.screen z=20)之下：菜单弹出时自动被盖住 */
   pointer-events: none;
   touch-action: none;
@@ -903,7 +920,10 @@ body { -webkit-touch-callout: none; }
 /* ---------- 竖屏提示（触摸设备竖屏时显示） ---------- */
 #rotate-hint {
   position: fixed;
-  inset: 0;
+  top: var(--vp-top, 0);
+  left: var(--vp-left, 0);
+  width: var(--vp-w, 100vw);
+  height: var(--vp-h, 100dvh);
   z-index: 100;
   display: none;
   flex-direction: column;

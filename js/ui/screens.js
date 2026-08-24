@@ -1,7 +1,7 @@
 // ui/screens.js —— 标题 / 升级选招 / 胜利 / 失败 / 暂停 全屏覆盖层
 // 设计语言：岭南洪拳武馆 × 水墨江湖 × 红黑金（无 Emoji、无大圆角卡片）
-import { DIFFICULTY, ASSET_V } from '../config.js?v=18';
-import { isCoarsePointer } from '../touch.js?v=18';
+import { DIFFICULTY, ASSET_V } from '../config.js?v=19';
+import { isCoarsePointer } from '../touch.js?v=19';
 
 const layer = () => document.getElementById('ui-layer');
 const clear = () => { if (layer()) layer().innerHTML = ''; };
